@@ -88,6 +88,33 @@ public class VueloDAO {
         }
         return vuelos;
     }
+    //metodo para obtener vuelos  por origen y destino 
+  
+  public List<Vuelo> obtenerVuelosPorRuta(String origen, String destino) {
+    List<Vuelo> vuelos = new ArrayList<>();
+    String sql = "SELECT * FROM Flights WHERE DepartureAirport = ? AND ArrivalAirport = ?";
+    try (Connection con = ConexionDB.obtenerConexion();
+         PreparedStatement pstmt = con.prepareStatement(sql)) {
+        pstmt.setString(1, origen);
+        pstmt.setString(2, destino);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Vuelo vuelo = new Vuelo();
+                vuelo.setId(rs.getInt("FlightID"));
+                vuelo.setCodigoVuelo(rs.getString("FlightCode"));
+                vuelo.setOrigen(rs.getString("DepartureAirport"));
+                vuelo.setDestino(rs.getString("ArrivalAirport"));
+                vuelo.setHoraSalida(rs.getTimestamp("DepartureTime"));
+                vuelo.setHoraLlegada(rs.getTimestamp("ArrivalTime"));
+                vuelo.setPrecio(rs.getDouble("Price"));
+                vuelos.add(vuelo);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return vuelos;
+}
 
     // Método para actualizar un vuelo en la base de datos
     public void actualizarVuelo(Vuelo vuelo) {

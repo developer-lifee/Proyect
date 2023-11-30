@@ -10,6 +10,8 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import model.Vuelo;
 
+
+
 public class BuscarVuelo extends javax.swing.JFrame {
     private JTable tablaVuelos;
     private DefaultTableModel modeloTabla;
@@ -33,7 +35,7 @@ public class BuscarVuelo extends javax.swing.JFrame {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
        }
        
-private void cargarVuelos(String aerolinea, String destino) {
+private void cargarVuelos(String aerolinea) {
        //Implementación del método cargarVuelos
         modeloTabla.setRowCount(0);
         List<Vuelo> vuelos = new VueloDAO().obtenerVuelosPorAerolinea(aerolinea);
@@ -48,6 +50,23 @@ private void cargarVuelos(String aerolinea, String destino) {
             });
         }
     }
+
+private void cargarVuelosPorRuta(String origen, String destino) {
+    // Limpiar tabla
+    modeloTabla.setRowCount(0);
+    // Llamada al método DAO para obtener vuelos por ruta
+    List<Vuelo> vuelos = new VueloDAO().obtenerVuelosPorRuta(origen, destino);
+    for (Vuelo vuelo : vuelos) {
+        modeloTabla.addRow(new Object[]{
+            vuelo.getCodigoVuelo(),
+            vuelo.getOrigen(),
+            vuelo.getDestino(),
+            vuelo.getHoraSalida(),
+            vuelo.getHoraLlegada().toString(),
+            vuelo.getPrecio()
+        });
+    }
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -348,13 +367,14 @@ private void cargarVuelos(String aerolinea, String destino) {
     }//GEN-LAST:event_reservasButtonActionPerformed
 
     private void wingoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingoButtonActionPerformed
-         cargarVuelos("Wingo", destino);
+         cargarVuelos("Wingo");
     }//GEN-LAST:event_wingoButtonActionPerformed
 
     private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
            // Obtener los valores de los campos de entrada
     String origen = origenField.getText();
     String destino = destinoField.getText();
+    cargarVuelosPorRuta(origen, destino);
     }//GEN-LAST:event_buscarButtonActionPerformed
 
     private void destinoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destinoFieldActionPerformed
@@ -362,7 +382,7 @@ private void cargarVuelos(String aerolinea, String destino) {
     }//GEN-LAST:event_destinoFieldActionPerformed
 
     private void aviancaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aviancaButtonActionPerformed
-         cargarVuelos("Avianca", destino);
+         cargarVuelos("Avianca");
     }//GEN-LAST:event_aviancaButtonActionPerformed
 
 
