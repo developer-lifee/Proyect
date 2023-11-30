@@ -1,49 +1,46 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-/**
- * The Main package contains the main class and entry point of the program.
- */
+
 package Main;
 
 
 import java.awt.event.ActionEvent;
 import java.util.List;
-
-// Y tus clases específicas del proyecto
 import dao.VueloDAO;
 import model.Vuelo;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+import javax.swing.JScrollPane;
 
 
 public class Buscar extends javax.swing.JFrame {
 
-    jButtonBuscar.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        // Crear una instancia del DAO y obtener la lista de vuelos
-        VueloDAO dao = new VueloDAO();
-        List<Vuelo> vuelos = dao.obtenerVuelos();
-        // Actualizar la tabla con la lista de vuelos
-        actualizarTablaVuelos(vuelos);
-    }
-});
 
-private void actualizarTablaVuelos(List<Vuelo> vuelos) {
-    // Asegúrate de que el modelo de la tabla esté configurado correctamente antes de esta parte
-    modeloTabla.setRowCount(0); // Limpiar la tabla
-    for (Vuelo vuelo : vuelos) {
-        modeloTabla.addRow(new Object[]{
-            vuelo.getAerolinea().getNombre(),
-            vuelo.getCodigoVuelo(),
-            // ... otros datos del vuelo que quieras mostrar
-        });
-    }
-}
+    private DefaultTableModel modeloTabla; // Necesitarás inicializar esto correctamente
 
-    
     public Buscar() {
         initComponents();
+        attachButtonListeners();
     }
+
+    private void attachButtonListeners() {
+        buscarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buscarVuelos();
+            }
+        });
+    }
+
+    private void buscarVuelos() {
+        // Lógica para buscar vuelos y actualizar la tabla
+    }
+
+    private void actualizarTablaVuelos(List<Vuelo> vuelos) {
+        // Lógica para actualizar la tabla con vuelos
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,15 +54,15 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        AerolineaLbl = new javax.swing.JLabel();
+        CodigoVueloLbl = new javax.swing.JLabel();
+        PuestoLbl = new javax.swing.JLabel();
+        AerolinaCampo = new javax.swing.JTextField();
+        CodigoVueloCampo = new javax.swing.JTextField();
+        puestoCampo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButtonBuscar = new javax.swing.JButton();
+        inicioButton = new javax.swing.JButton();
+        buscarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,25 +76,25 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Aerolinea");
+        AerolineaLbl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        AerolineaLbl.setText("Aerolinea");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Codigo De Vuelo");
+        CodigoVueloLbl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        CodigoVueloLbl.setText("Codigo De Vuelo");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Puesto");
+        PuestoLbl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        PuestoLbl.setText("Puesto");
 
-        jTextField1.setText("jTextField1");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        AerolinaCampo.setText("jTextField1");
+        AerolinaCampo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                AerolinaCampoActionPerformed(evt);
             }
         });
 
-        jTextField2.setText("jTextField2");
+        CodigoVueloCampo.setText("jTextField2");
 
-        jTextField3.setText("jTextField3");
+        puestoCampo.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,20 +102,23 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(CodigoVueloLbl)
+                            .addGap(82, 82, 82))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(AerolineaLbl)
+                            .addGap(128, 128, 128)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(132, 132, 132)
-                        .addComponent(jTextField1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGap(82, 82, 82)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(PuestoLbl)
+                        .addGap(145, 145, 145)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(puestoCampo, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(AerolinaCampo)
+                        .addComponent(CodigoVueloCampo, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,16 +126,16 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AerolineaLbl)
+                    .addComponent(AerolinaCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CodigoVueloLbl)
+                    .addComponent(CodigoVueloCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PuestoLbl)
+                    .addComponent(puestoCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -143,11 +143,16 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Buscar Vuelos");
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 0));
-        jButton1.setText("INICIO");
+        inicioButton.setBackground(new java.awt.Color(255, 255, 0));
+        inicioButton.setText("INICIO");
 
-        jButtonBuscar.setBackground(new java.awt.Color(255, 255, 0));
-        jButtonBuscar.setText("BUSCAR");
+        buscarButton.setBackground(new java.awt.Color(255, 255, 0));
+        buscarButton.setText("BUSCAR");
+        buscarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -166,9 +171,9 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
                         .addGap(38, 38, 38))))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(77, 77, 77)
-                .addComponent(jButton1)
+                .addComponent(inicioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonBuscar)
+                .addComponent(buscarButton)
                 .addGap(78, 78, 78))
         );
         jPanel5Layout.setVerticalGroup(
@@ -182,8 +187,8 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButtonBuscar))
+                    .addComponent(inicioButton)
+                    .addComponent(buscarButton))
                 .addGap(74, 74, 74))
         );
 
@@ -203,9 +208,13 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void AerolinaCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AerolinaCampoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_AerolinaCampoActionPerformed
+
+    private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,17 +252,17 @@ private void actualizarTablaVuelos(List<Vuelo> vuelos) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonBuscar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField AerolinaCampo;
+    private javax.swing.JLabel AerolineaLbl;
+    private javax.swing.JTextField CodigoVueloCampo;
+    private javax.swing.JLabel CodigoVueloLbl;
+    private javax.swing.JLabel PuestoLbl;
+    private javax.swing.JButton buscarButton;
+    private javax.swing.JButton inicioButton;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField puestoCampo;
     // End of variables declaration//GEN-END:variables
 }

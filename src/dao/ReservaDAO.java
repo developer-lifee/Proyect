@@ -21,9 +21,9 @@ public class ReservaDAO {
             e.printStackTrace();
         }
     }
-
     // Método para obtener todas las reservas de la base de datos
-    public List<Reserva> obtenerReservas() {
+      
+    public  List<Reserva> obtenerReservas() {
         List<Reserva> reservas = new ArrayList<>();
         try (Connection con = ConexionDB.obtenerConexion();
              Statement stmt = con.createStatement();
@@ -45,7 +45,32 @@ public class ReservaDAO {
             e.printStackTrace();
         }
         return reservas;
+  
+   
+
+        
     }
+   public List<Reserva> obtenerReservasPorIDVuelo(int idVuelo) {
+    List<Reserva> reservas = new ArrayList<>();
+    String sql = "SELECT * FROM Reservations WHERE FlightID = ?";
+    try (Connection con = ConexionDB.obtenerConexion();
+         PreparedStatement pstmt = con.prepareStatement(sql)) {
+        pstmt.setInt(1, idVuelo);
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("ReservationID");
+            String seatNumber = rs.getString("SeatNumber");
+            Timestamp reservationDate = rs.getTimestamp("ReservationDate");
+
+            Vuelo vuelo = new VueloDAO().obtenerVueloPorID(idVuelo);
+            Reserva reserva = new Reserva(id, vuelo, seatNumber, new Date(reservationDate.getTime()));
+            reservas.add(reserva);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return reservas;
+}
 
     // Método para actualizar una reserva en la base de datos
     public void actualizarReserva(Reserva reserva) {

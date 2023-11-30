@@ -356,12 +356,15 @@ private void cargarVuelosPorRuta(String origen, String destino) {
 
     
     private void reservasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservasButtonActionPerformed
-    // Create an instance of the Buscar class
-    Wingo wingo = new Wingo();
+    
+    int filaSeleccionada = tablaVuelos.getSelectedRow();
+    String codigoVuelo = (String) tablaVuelos.getValueAt(filaSeleccionada, 0);
 
+// Create an instance of the Buscar class
+    Wingo wingo = new Wingo(codigoVuelo);
     // Set the visibility of the Buscar class to true
     wingo.setVisible(true);
-
+    wingo.inicializar();
     // Hide the Usuario class
     this.setVisible(false); // TODO add your handling code here:
     }//GEN-LAST:event_reservasButtonActionPerformed

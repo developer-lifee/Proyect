@@ -4,16 +4,21 @@
  */
 package Main;
 
-/**
- *
- * @author davse
- */
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+import dao.VueloDAO;
+import java.awt.BorderLayout;
+import javax.swing.JScrollPane;
+import model.Vuelo;
+
 public class Wingo extends javax.swing.JFrame {
 
     /**
      * Creates new form Wingo
      */
-    public Wingo() {
+    public Wingo(String codigoVuelo) {
         initComponents();
     }
 
@@ -313,42 +318,33 @@ public class Wingo extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+public void inicializar(String codigoVuelo) {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Wingo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Wingo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Wingo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Wingo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    // Obtener el id del vuelo
+    int idVuelo = vueloDAO.obtenerVueloIDPorCodigo(codigoVuelo);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Wingo().setVisible(true);
-            }
-        });
+    // Obtener las reservas del vuelo
+    List<Reserva> reservas = reservaDAO.obtenerReservasPorIDVuelo(idVuelo);
+
+    // Limpiar la tabla
+    tablaReservas.setModel(new DefaultTableModel());
+
+    // Agregar las reservas a la tabla
+    for (Reserva reserva : reservas) {
+        Object[] fila = new Object[4];
+        fila[0] = reserva.getId();
+        fila[1] = reserva.getVuelo().getCodigo();
+        fila[2] = reserva.getNombrePasajero();
+        fila[3] = reserva.getFechaReserva();
+        tablaReservas.addRow(fila);
     }
 
+    // Establecer el título de la ventana
+    this.setTitle("Reservas de vuelo " + codigoVuelo);
+
+}
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;

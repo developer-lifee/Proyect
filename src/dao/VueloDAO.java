@@ -115,7 +115,20 @@ public class VueloDAO {
     }
     return vuelos;
 }
-
+  public Integer obtenerVueloIDPorCodigo(String codigoVuelo) {
+    String sql = "SELECT FlightID FROM Flights WHERE FlightCode = ?";
+    try (Connection con = ConexionDB.obtenerConexion();
+         PreparedStatement pstmt = con.prepareStatement(sql)) {
+        pstmt.setString(1, codigoVuelo);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("FlightID");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null; // O lanzar una excepción si prefieres indicar que no se encontró el vuelo
+}
     // Método para actualizar un vuelo en la base de datos
     public void actualizarVuelo(Vuelo vuelo) {
         try (Connection con = ConexionDB.obtenerConexion();
