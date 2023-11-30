@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2023 a las 04:58:33
+-- Tiempo de generación: 30-11-2023 a las 07:25:15
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -84,22 +84,58 @@ INSERT INTO `flights` (`FlightID`, `AirlineID`, `FlightCode`, `DepartureAirport`
 
 CREATE TABLE `reservations` (
   `ReservationID` int(11) NOT NULL,
-  `PassengerName` varchar(255) NOT NULL,
   `FlightID` int(11) DEFAULT NULL,
-  `ReservationDate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `seats`
---
-
-CREATE TABLE `seats` (
-  `SeatID` int(11) NOT NULL,
-  `FlightID` int(11) NOT NULL,
+  `ReservationDate` datetime DEFAULT NULL,
   `SeatNumber` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reservations`
+--
+
+INSERT INTO `reservations` (`ReservationID`, `FlightID`, `ReservationDate`, `SeatNumber`) VALUES
+(13, 1, '2023-11-29 23:53:09', ''),
+(14, 1, '2023-11-29 23:53:09', ''),
+(38, 4, '2023-11-30 01:02:02', ''),
+(53, 1, NULL, '1H'),
+(54, 1, NULL, '1I'),
+(55, 3, NULL, '3H'),
+(56, 3, NULL, '3I'),
+(57, 3, NULL, '3J'),
+(58, 4, NULL, '4H'),
+(59, 4, NULL, '4I'),
+(60, 4, NULL, '4J'),
+(61, 5, NULL, '5H'),
+(62, 5, NULL, '5I'),
+(63, 5, NULL, '5J'),
+(64, 6, NULL, '6H'),
+(65, 6, NULL, '6I'),
+(66, 6, NULL, '6J'),
+(67, 7, NULL, '7H'),
+(68, 7, NULL, '7I'),
+(69, 7, NULL, '7K'),
+(70, 8, NULL, '8H'),
+(71, 8, NULL, '8I'),
+(72, 9, NULL, '9H'),
+(73, 9, NULL, '9I'),
+(74, 10, NULL, '10H'),
+(75, 10, NULL, '10I'),
+(76, 11, NULL, '11H'),
+(77, 11, NULL, '11I'),
+(78, 11, '2023-11-30 01:18:19', '11A'),
+(79, 11, '2023-11-30 01:18:19', '11B'),
+(80, 11, '2023-11-30 01:18:19', '11C'),
+(81, 11, NULL, '11D'),
+(82, 11, NULL, '11E'),
+(83, 11, NULL, '11F'),
+(84, 11, NULL, '11G'),
+(85, 12, '2023-11-30 01:18:19', '12A'),
+(86, 12, '2023-11-30 01:18:19', '12B'),
+(87, 12, '2023-11-30 01:18:19', '12C'),
+(88, 12, NULL, '12D'),
+(89, 12, NULL, '12E'),
+(90, 12, NULL, '12F'),
+(91, 12, NULL, '12G');
 
 --
 -- Índices para tablas volcadas
@@ -127,13 +163,6 @@ ALTER TABLE `reservations`
   ADD KEY `FlightID` (`FlightID`);
 
 --
--- Indices de la tabla `seats`
---
-ALTER TABLE `seats`
-  ADD PRIMARY KEY (`SeatID`),
-  ADD KEY `FlightID` (`FlightID`);
-
---
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -153,13 +182,7 @@ ALTER TABLE `flights`
 -- AUTO_INCREMENT de la tabla `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `ReservationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de la tabla `seats`
---
-ALTER TABLE `seats`
-  MODIFY `SeatID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ReservationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- Restricciones para tablas volcadas
@@ -170,18 +193,6 @@ ALTER TABLE `seats`
 --
 ALTER TABLE `flights`
   ADD CONSTRAINT `flights_ibfk_1` FOREIGN KEY (`AirlineID`) REFERENCES `airlines` (`AirlineID`);
-
---
--- Filtros para la tabla `reservations`
---
-ALTER TABLE `reservations`
-  ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`FlightID`) REFERENCES `flights` (`FlightID`);
-
---
--- Filtros para la tabla `seats`
---
-ALTER TABLE `seats`
-  ADD CONSTRAINT `seats_ibfk_1` FOREIGN KEY (`FlightID`) REFERENCES `flights` (`FlightID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

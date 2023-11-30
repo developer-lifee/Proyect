@@ -301,7 +301,13 @@ public class Wingo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+      BuscarVuelo buscarVuelo = new BuscarVuelo();
+
+    // Set the visibility of the BuscarVuelo class to true
+    buscarVuelo.setVisible(true);
+
+    // Hide the Usuario class
+    this.setVisible(false);     // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
