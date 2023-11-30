@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Main;
 
 import javax.swing.JButton;
@@ -9,17 +6,19 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import dao.VueloDAO;
+import dao.ReservaDAO;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
+import model.Reserva;
 import model.Vuelo;
 
 public class Wingo extends javax.swing.JFrame {
+     private JTable tablaReservas; // Declara la tabla de reservas     */
 
-    /**
-     * Creates new form Wingo
-     */
+   
     public Wingo(String codigoVuelo) {
         initComponents();
+        inicializar(codigoVuelo); // Llama a inicializar en el constructor
     }
 
     /**
@@ -35,8 +34,6 @@ public class Wingo extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
@@ -87,29 +84,15 @@ public class Wingo extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jButton2.setText("Wingo");
-
-        jButton4.setText("Avianca");
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(229, 229, 229)
-                .addComponent(jButton2)
-                .addGap(149, 149, 149)
-                .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 941, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4))
-                .addContainerGap())
+            .addGap(0, 39, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -318,36 +301,31 @@ public class Wingo extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
-public void inicializar(String codigoVuelo) {
+     public void inicializar(String codigoVuelo) {
+        VueloDAO vueloDAO = new VueloDAO();
+        int idVuelo = vueloDAO.obtenerVueloIDPorCodigo(codigoVuelo);
 
-    // Obtener el id del vuelo
-    int idVuelo = vueloDAO.obtenerVueloIDPorCodigo(codigoVuelo);
+        ReservaDAO reservaDAO = new ReservaDAO();
+        List<Reserva> reservas = reservaDAO.obtenerReservasPorIDVuelo(idVuelo);
 
-    // Obtener las reservas del vuelo
-    List<Reserva> reservas = reservaDAO.obtenerReservasPorIDVuelo(idVuelo);
+        tablaReservas = new JTable(); // Inicializa la tabla
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new Object[]{"ID", "Código", "Pasajero", "Fecha Reserva"});
+        tablaReservas.setModel(modelo);
 
-    // Limpiar la tabla
-    tablaReservas.setModel(new DefaultTableModel());
+        for (Reserva reserva : reservas) {
+            modelo.addRow(new Object[]{reserva.getId(), reserva.getVuelo().getCodigoVuelo(), reserva.getNumeroAsiento(), reserva.getFechaReserva()});
+        }
 
-    // Agregar las reservas a la tabla
-    for (Reserva reserva : reservas) {
-        Object[] fila = new Object[4];
-        fila[0] = reserva.getId();
-        fila[1] = reserva.getVuelo().getCodigo();
-        fila[2] = reserva.getNombrePasajero();
-        fila[3] = reserva.getFechaReserva();
-        tablaReservas.addRow(fila);
+        JScrollPane scrollPane = new JScrollPane(tablaReservas);
+        jPanel4.setLayout(new BorderLayout()); // Asegúrate de que jPanel4 esté configurado para BorderLayout
+        jPanel4.add(scrollPane, BorderLayout.CENTER);
+
+        this.setTitle("Reservas de vuelo " + codigoVuelo);
     }
-
-    // Establecer el título de la ventana
-    this.setTitle("Reservas de vuelo " + codigoVuelo);
-
-}
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
@@ -372,4 +350,6 @@ public void inicializar(String codigoVuelo) {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     // End of variables declaration//GEN-END:variables
+
+
 }

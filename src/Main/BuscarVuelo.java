@@ -364,7 +364,7 @@ private void cargarVuelosPorRuta(String origen, String destino) {
     Wingo wingo = new Wingo(codigoVuelo);
     // Set the visibility of the Buscar class to true
     wingo.setVisible(true);
-    wingo.inicializar();
+    wingo.inicializar(codigoVuelo);
     // Hide the Usuario class
     this.setVisible(false); // TODO add your handling code here:
     }//GEN-LAST:event_reservasButtonActionPerformed

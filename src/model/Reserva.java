@@ -5,7 +5,7 @@ import java.util.Date;
 public class Reserva {
     private int id;
     private Vuelo vuelo; // Asociación con Vuelo
-    private String nombrePasajero;
+    private String numeroAsiento;
     private Date fechaReserva;
 
     // Constructor vacío
@@ -14,10 +14,10 @@ public class Reserva {
     }
 
     // Constructor con todos los atributos
-    public Reserva(int id, Vuelo vuelo, String nombrePasajero, Date fechaReserva) {
+    public Reserva(int id, Vuelo vuelo, String numeroAsiento, Date fechaReserva) {
         this.id = id;
         this.vuelo = vuelo;
-        this.nombrePasajero = nombrePasajero;
+        this.numeroAsiento = numeroAsiento;
         this.fechaReserva = fechaReserva;
     }
 
@@ -39,12 +39,12 @@ public class Reserva {
         this.vuelo = vuelo;
     }
 
-    public String getNombrePasajero() {
-        return nombrePasajero;
+    public String getNumeroAsiento() {
+        return numeroAsiento;
     }
 
-    public void setNombrePasajero(String nombrePasajero) {
-        this.nombrePasajero = nombrePasajero;
+    public void setNumeroAsiento(String numeroAsiento) {
+        this.numeroAsiento = numeroAsiento;
     }
 
     public Date getFechaReserva() {

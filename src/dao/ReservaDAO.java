@@ -13,7 +13,7 @@ public class ReservaDAO {
     public void agregarReserva(Reserva reserva) {
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement pstmt = con.prepareStatement("INSERT INTO Reservations (PassengerName, FlightID, ReservationDate) VALUES (?, ?, ?)")) {
-            pstmt.setString(1, reserva.getNombrePasajero());
+            pstmt.setString(1, reserva.getNumeroAsiento());
             pstmt.setInt(2, reserva.getVuelo().getId());
             pstmt.setTimestamp(3, new Timestamp(reserva.getFechaReserva().getTime()));
             pstmt.executeUpdate();
@@ -76,7 +76,7 @@ public class ReservaDAO {
     public void actualizarReserva(Reserva reserva) {
         try (Connection con = ConexionDB.obtenerConexion();
              PreparedStatement pstmt = con.prepareStatement("UPDATE Reservations SET PassengerName=?, FlightID=?, ReservationDate=? WHERE ReservationID=?")) {
-            pstmt.setString(1, reserva.getNombrePasajero());
+            pstmt.setString(1, reserva.getNumeroAsiento());
             pstmt.setInt(2, reserva.getVuelo().getId());
             pstmt.setTimestamp(3, new Timestamp(reserva.getFechaReserva().getTime()));
             pstmt.setInt(4, reserva.getId());
